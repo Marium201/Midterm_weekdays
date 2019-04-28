@@ -23,4 +23,17 @@ public interface Employee {
     //employee benefit
     public void benefitLayout();
 
+    static void dentalCare(int salary) {
+        double dentalBenefit = 0;
+
+        do {
+            dentalBenefit = dentalBenefit + (salary * 0.10);
+        } while ((salary > 800000) && (salary < 1500000));
+
+        do {
+            dentalBenefit = dentalBenefit + (salary * 0.20);
+        } while ((salary > 600000) && (salary < 800000));
+        System.out.println("Total of $" + dentalBenefit + " are people get on top of their yearly salary for dental !!!");
+
+    }
 }

@@ -56,22 +56,36 @@ public class ProcessStudentInfo {
 
         //Parse Data using parseData method and then store data into Selenium ArrayList.
         seleniumStudents = xmlReader.parseData(tag, pathSelenium);
+        qtpStudents = xmlReader.parseData(tag, pathQtp);
 
-        //Parse Data using parseData method and then store data into Qtp ArrayList.
-
-        //add Selenium ArrayList data into map.
-
-        //add Qtp ArrayList data into map.
+        list.put("qtp", qtpStudents);
+        list.put("selenium", seleniumStudents);
 
 
-        //Retrieve map data and display output.
+        for (Map.Entry<String, List<Student>> print : list.entrySet()) {
+            List<Student> studentList = (List<Student>) list.get(print.getKey());
+            System.out.println("\nPortfolio of Student of " + print.getKey() + "classes :\n");
+            for (Student studentprofile : studentList) {
+                String id = studentprofile.getId();
+                String firstname = studentprofile.getFirstName();
+                String lastname = studentprofile.getLastName();
+                String grade = studentprofile.getScore();
+                System.out.println("Students (id= " + id + ") " + firstname + " " + lastname + " grade= " + grade);
+            }
+        }
 
 
         //Store Qtp data into Qtp table in Database
         connectToMongoDB.insertIntoMongoDB(seleniumStudents, "qtp");
-        //connectToSqlDB.insertDataFromArrayListToMySql(seleniumStudents, "qtp","studentList");
+
 
         //Store Selenium data into Selenium table in Database
+        connectToMongoDB.insertIntoMongoDB(qtpStudents, "selenium");
+//Retrieve Selenium students from Database
+        List<Student> stList1 = connectToMongoDB.readStudentListFromMongoDB("selenium");
+        for (Student st : stList1) {
+            System.out.println(st.getId() + "   " + st.getFirstName() + " " + st.getLastName() + "   " + st.getScore() + " ");
+        }
 
         //Retrieve Qtp students from Database
         List<Student> stList = connectToMongoDB.readStudentListFromMongoDB("qtp");
@@ -79,7 +93,7 @@ public class ProcessStudentInfo {
             System.out.println(st.getFirstName() + " " + st.getLastName() + " " + st.getScore() + " " + st.getId());
         }
 
-        //Retrieve Selenium students from Database
+
 
 
     }
